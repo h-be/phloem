@@ -1,5 +1,5 @@
 # translator
-> Translates between git issues and SoA nodes*
+> Translates between git issues and SoA nodes
 
 # Background
 translator listens for new issues created in a GitHub repo and creates corresponding leaf nodes in a Mirro State of Affairs tree under a "Triage" root node.

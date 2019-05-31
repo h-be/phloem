@@ -35,7 +35,7 @@ post '/payload/issues' do
     puts "OPENED!"
     puts "creating node with the following information: title=#{title},
     body=#{body}, url=#{url}, user=#{user}, number=#{number} issueID=#{issueID}"
-    create_node(title, body, url, user, number, issueID, "network") # FIXME #
+    create_node(title, body, url, user, number, issueID, "network") # FIXME issue #19
   when "closed"
     puts "CLOSED!"
     # turn color to green

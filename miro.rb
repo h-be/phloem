@@ -4,8 +4,13 @@ require "openssl"
 require "json"
 require_relative "config.rb"
 
+# Define colors
 UNCERTAIN_RED = "#f24726"
+INCOMPLETE_ORANGE = "#fac710"
+COMPLETE_GREEN = "#8fd14f"
+SMALLBORDER_GREEN = "#0ca789"
 
+# Set up some urls
 oauth_url = URI("https://api.miro.com/v1/oauth-token")
 
 # Test whether a given widget is a triage frame
@@ -41,6 +46,9 @@ def find_triage_frames()
   end
   return tframes
 end
+
+# Helper functions for requesting gets and posts
+#   I don't know if these are necessary or if there's a better way to do this
 def send_get(url)
   http = Net::HTTP.new(url.host, url.port)
   http.use_ssl = true
@@ -87,7 +95,7 @@ def create_node(title, body, url, user, number, issueID, context)
     "title"=>"<p>#{title}<br><a href=\"#{url}\">\##{number}</a><br><br>#{body}<br><br>opened by #{user}<br>~~ #{issueID}",
     # {}"description"=>"test", # causes bug and gets lost on widget type change
     "style"=>{
-      "backgroundColor"=>UNCERTAIN_RED
+      "backgroundColor"=>UNCERTAIN_RED # doesn't actually work how we want it b/c we're creating a card not a shape
     },
     "y"=>y,
     "x"=>x,

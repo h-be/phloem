@@ -5,10 +5,42 @@ require "json"
 require_relative "config.rb"
 
 UNCERTAIN_RED = "#f24726"
-NEW_NODE_LOCATION = [10,-15]
 
 oauth_url = URI("https://api.miro.com/v1/oauth-token")
 
+# Test whether a given widget is a triage frame
+# * must start with "TRIAGE"
+# * can have another term after it
+def is_triage_frame(widget)
+  return widget["type"] == "frame" && widget["title"] =~ /TRIAGE ?(.*)/
+end
+
+# returns the "subtitle" of the given triage frame. The subtitle is the words
+# that come after "TRIAGE " in the frame's title.
+def get_tframe_subtitle(widget)
+  title = widget["title"]
+  r = title.match(/TRIAGE ?(.*)/)
+  return r[1]
+end
+
+# Looks through all widgets and returns the widgets that start with "TRIAGE"
+# Returns a hash. Keys are the subtitles of the triage frames, values are the
+# frame widgets themselves.
+def find_triage_frames()
+  widgets_url = URI("https://api.miro.com/v1/boards/#{BOARD_ID}/widgets")
+  result = send_get(widgets_url)
+  widgets_collection = JSON.parse(result)
+  widgets = widgets_collection["data"]
+  tframes = Hash.new
+  widgets.each do |widget|
+    if is_triage_frame(widget)
+      subtitle = get_tframe_subtitle(widget)
+      puts "TRIAGE FRAME FOUND with subtitle #{subtitle}"
+      tframes[subtitle] = widget
+    end
+  end
+  return tframes
+end
 def send_get(url)
   http = Net::HTTP.new(url.host, url.port)
   http.use_ssl = true
@@ -33,8 +65,23 @@ def send_post(url, body)
   return response.read_body
 end
 
-def create_node(title, body, url, user, number, issueID)
+def get_coordinates(widget)
+  x = widget["x"]
+  y = widget["y"]
+  return x, y
+end
+
+# Creates a node with the given information
+# * title–user: self explanitory
+# * issueID: the unique GitHub issue ID used to track the node
+# * context: the scope that the issue relates to. Decided by SOMETHING from
+#   GitHub information, manifests as the triage location the node is created in
+def create_node(title, body, url, user, number, issueID, context)
   widgets_url = URI("https://api.miro.com/v1/boards/#{BOARD_ID}/widgets")
+
+  # compute location for card to appear based on context
+  x, y = get_coordinates(find_triage_frames()[context])
+
   data = {
     "type"=>"card",
     "title"=>"<p>#{title}<br><a href=\"#{url}\">\##{number}</a><br><br>#{body}<br><br>opened by #{user}<br>~~ #{issueID}",
@@ -42,9 +89,9 @@ def create_node(title, body, url, user, number, issueID)
     "style"=>{
       "backgroundColor"=>UNCERTAIN_RED
     },
-    "y"=>NEW_NODE_LOCATION[0],
-    "x"=>NEW_NODE_LOCATION[1],
-    "scale"=>0.49687972316570445
+    "y"=>y,
+    "x"=>x,
+    "scale"=>1
   }
   json = data.to_json
   result = send_post(widgets_url, json)

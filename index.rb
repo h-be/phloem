@@ -1,6 +1,7 @@
 require 'sinatra'
 require 'json'
 require_relative 'miro.rb'
+require_relative 'colors.rb'
 
 # Set custom port
 set :port, 8089
@@ -24,23 +25,26 @@ post '/payload/issues' do
   user = push["sender"]["login"]
   # state = issue["state"]
 
-  puts "\e[32;3mThe action is:\e[0m #{action}"
-  puts "\e[32;3mThe title is:\e[0m #{title}"
-  puts "\e[32;3mThe body is:\e[0m #{body}"
-  puts "\e[32;3mThe url is:\e[0m #{url}"
+  puts CIGREEN + "The action is: " + CEND + action
+  puts CIGREEN + "The title is: " + CEND + title
+  puts CIGREEN + "The body is: " + CEND + body
+  puts CIGREEN + "The url is: " + CEND + url
+
+  puts CIGREEN + "The repo is:" + CEND + repo
 
   # Do things based on what the update was
   case action
   when "opened"
-    puts "OPENED!"
+    puts CGREEN + "OPENED!" + CEND
+
     puts "creating node with the following information: title=#{title},
     body=#{body}, url=#{url}, user=#{user}, number=#{number} issueID=#{issueID}"
     create_node(title, body, url, user, number, issueID, "network") # FIXME issue #19
   when "closed"
-    puts "CLOSED!"
+    puts CGREEN + "CLOSED!" + CEND
     # turn color to green
   when "reopened"
-    puts "REOPENED!"
+    puts CGREEN + "REOPENED!" + CEND
     # turn color back to something
   else
     puts "Action was #{action} and the translator doesn't know what to

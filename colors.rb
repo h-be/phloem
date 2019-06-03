@@ -1,0 +1,6 @@
+CIGREEN = "\e[32;3m"
+CGREEN = "\e[32m"
+CIRED = "\e[31;3m"
+CBGREEN = "\e[32;1m"
+UNDERLINE = "\033[4m"
+CEND = "\033[0m"

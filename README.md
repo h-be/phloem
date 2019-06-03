@@ -33,10 +33,10 @@ translator listens for new issues created in a GitHub repo and creates correspon
    5. Click "Install app and get OAuth Token" and note the access token Miro gives you.
    4. Make a file called `config.rb` with the following consts defined:
       ```
-      CLIENT_ID = '[client id]'  # Must be replaced from "manage apps" settings
-      CLIENT_SECRET = '[client secret]'  # Must be replaced from "manage apps" settings
-      ACCESS_TOKEN = "[access token]"
-      BOARD_ID = "[Miro board id]"  # Found in board URL: https﻿://miro.com/app/board/[board id]/
+      CLIENT_ID = '[client id]'         # Must be replaced from "manage apps" settings
+      CLIENT_SECRET = '[client secret]' # Must be replaced from "manage apps" settings
+      ACCESS_TOKEN = "[access token]"   # From Miro
+      BOARD_ID = "[Miro board id]"      # Found in board URL: https﻿://miro.com/app/board/[board id]/
       ```
   [comment]: # (Watch out!, there's a non-breaking zero-width space character in the URL in the last line of the code block above, between the 's' and ':')
 

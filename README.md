@@ -18,26 +18,26 @@ translator listens for new issues created in a GitHub repo and creates correspon
 2. #### **Connect to GitHub**
    1. [Create a webhook](https://developer.github.com/webhooks/creating/) in the GitHub repo.
    2. Enter your ngrok url `payload/issues` appended as the Payload URL: `http://********.ngrok.io/payload/issues`
-   3. During setup, under "Which events would you like to trigger this webhook?", select "Issues".
-   4. Save the webhook
-   5. *Create a webhook with these settings in each repo you want to link to the Miro board.*
+   3. Set the content type to "application/json"
+   4. During setup, under "Which events would you like to trigger this webhook?", select "Issues".
+   5. Save the webhook
+   6. *Create a webhook with these settings in each repo you want to link to the Miro board.*
 3. #### **Connect to Miro**
-   1. Get an [access token](https://developers.miro.com/reference#authorization-and-authentication) from Miro:
-   2. Go to Miro > [Your organization] > Settings > Profile settings > Your apps [Beta].
-   3. Add a new app and note the Client id and secret.
-   4. Select the following scopes:
+   1. Go to Miro > [Your organization] > Settings > Profile settings > Your apps [Beta].
+   2. Add a new app and note the Client id and secret.
+   3. Select the following scopes:
        * `boards:read`
        * `boards:write`
        * `boards_content:read`
        * `boards_content:write`
-   5. Click "Install app and get OAuth Token" and note the access token Miro gives you.
-   4. Make a file called `config.rb` with the following consts defined:
-      ```
-      CLIENT_ID = '[client id]'         # Must be replaced from "manage apps" settings
-      CLIENT_SECRET = '[client secret]' # Must be replaced from "manage apps" settings
-      ACCESS_TOKEN = "[access token]"   # From Miro
-      BOARD_ID = "[Miro board id]"      # Found in board URL: https﻿://miro.com/app/board/[board id]/
-      ```
+   4. Click "Install app and get OAuth Token" and follow the instructions.
+   5. Note the [access token](https://developers.miro.com/reference#authorization-and-authentication) Miro gives you.
+   6. Make a config file called `config.rb` with the following consts defined. A sample config file ([sample_config.rb](/sample_config.rb)) is provided to copy and edit.
+      * `CLIENT_ID` -  Found in "manage apps" settings in Miro
+      * `CLIENT_SECRET` - Found in "manage apps" settings in Miro
+      * `ACCESS_TOKEN` - API access token from Miro
+      * `BOARD_ID` - ID of Miro board
+
   [comment]: # (Watch out!, there's a non-breaking zero-width space character in the URL in the last line of the code block above, between the 's' and ':')
 
 4. #### **Set up Miro board**

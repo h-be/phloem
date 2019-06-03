@@ -11,7 +11,7 @@ post '/payload/issues' do
   json = request.body.read
   push = JSON.parse(json)
   # puts "\e[38;5;196mI got some JSON: \e[0m \n#{push.inspect}\n\n"
-  # puts "#{json.inspect}"
+  puts "#{json.inspect}"
 
   action = push["action"]
 
@@ -23,6 +23,9 @@ post '/payload/issues' do
   issueID = issue["id"]
 
   user = push["sender"]["login"]
+
+  # get the repo from JSON so we know which frame to put the node in
+  repo = push["repository"]["name"]
   # state = issue["state"]
 
   puts CIGREEN + "The action is: " + CEND + action
@@ -39,7 +42,9 @@ post '/payload/issues' do
 
     puts "creating node with the following information: title=#{title},
     body=#{body}, url=#{url}, user=#{user}, number=#{number} issueID=#{issueID}"
-    create_node(title, body, url, user, number, issueID, "network") # FIXME issue #19
+    puts "putting this node in the following triage frame: #{repo}"
+    create_node(title, body, url, user, number, issueID, repo)
+
   when "closed"
     puts CGREEN + "CLOSED!" + CEND
     # turn color to green

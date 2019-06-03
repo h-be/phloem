@@ -32,6 +32,7 @@ def get_triage_frames()
   widgets_url = URI("https://api.miro.com/v1/boards/#{BOARD_ID}/widgets")
   result = send_get(widgets_url)
   widgets_collection = JSON.parse(result)
+  puts CIGREEN + "WIDGETS COLLECTION: " + CEND + "#{widgets_collection}"
   widgets = widgets_collection["data"]
   tframes = Hash.new
   widgets.each do |widget|

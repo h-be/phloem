@@ -30,7 +30,7 @@ post '/payload/issues' do
   puts CIGREEN + "The title is: " + CEND + title
   puts CIGREEN + "The body is: " + CEND + body
   puts CIGREEN + "The url is: " + CEND + url
-  puts CIGREEN + "The repo is:" + CEND + repo
+  puts CIGREEN + "The repo is: " + CEND + repo
 
   # Do things based on what the update was
   case action

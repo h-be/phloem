@@ -81,11 +81,11 @@ end
 # * title thru user: self explanitory
 # * issueID: the unique GitHub issue ID whic we can use to track the node
 # * repo: the issue's repo. Decides which frame to create the node in.
-def create_node(title, body, url, user, number, issueID, context)
+def create_node(title, body, url, user, number, issueID, repo)
   widgets_url = URI("https://api.miro.com/v1/boards/#{BOARD_ID}/widgets")
 
-  # compute location for card to appear based on context
-  node_frame = get_triage_frames()[context] # this might take a long time with big boards. Fix?
+  # compute location for card to appear based on repo
+  node_frame = get_triage_frames()[repo] # this might take a long time with big boards. Fix?
   x, y = get_coordinates(node_frame)
 
   # add a little random nudge to the coordinates so nodes stack up visibly

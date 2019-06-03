@@ -88,6 +88,9 @@ def create_node(title, body, url, user, number, issueID, repo)
   # compute location for card to appear based on repo
   node_frame = get_triage_frames()[repo] # this might take a long time with big boards. Fix?
   x, y = get_coordinates(node_frame)
+  # compute scale for new node based on width of frame
+  frame_width = node_frame["width"]
+  node_scale = frame_width/1000
 
   # add a little random nudge to the coordinates so nodes stack up visibly
   nudge_distance = 13.0
@@ -114,7 +117,7 @@ def create_node(title, body, url, user, number, issueID, repo)
     },
     "y"=>node_y,
     "x"=>node_x,
-    "scale"=>1
+    "scale"=>node_scale
   }
   # convert it to JSON
   json = data.to_json

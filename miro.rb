@@ -88,6 +88,13 @@ def create_node(title, body, url, user, number, issueID, context)
   node_frame = get_triage_frames()[context] # this might take a long time with big boards. Fix?
   x, y = get_coordinates(node_frame)
 
+  # add a little random nudge to the coordinates so nodes stack up visibly
+  nudge_distance = 13.0
+  x_nudge = rand(-nudge_distance..nudge_distance)
+  y_nudge = rand(-nudge_distance..nudge_distance)
+  node_x = x + x_nudge
+  node_y = y + y_nudge
+
   # set up a hash of the information we want in our new node
   data = {
     "type"=>"card",
@@ -104,8 +111,8 @@ def create_node(title, body, url, user, number, issueID, context)
     "style"=>{
       "backgroundColor"=>UNCERTAIN_RED # doesn't actually work how we want it because we're creating a card not a shape
     },
-    "y"=>y,
-    "x"=>x,
+    "y"=>node_y,
+    "x"=>node_x,
     "scale"=>1
   }
   # convert it to JSON

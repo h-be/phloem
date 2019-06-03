@@ -11,7 +11,7 @@ post '/payload/issues' do
   json = request.body.read
   push = JSON.parse(json)
   # puts "\e[38;5;196mI got some JSON: \e[0m \n#{push.inspect}\n\n"
-  puts "#{json.inspect}"
+  # puts "#{json.inspect}"
 
   action = push["action"]
 

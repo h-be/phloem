@@ -55,7 +55,7 @@ def send_get(url)
   http.verify_mode = OpenSSL::SSL::VERIFY_NONE
 
   request = Net::HTTP::Get.new(url)
-  request["authorization"] = "Bearer #{API_KEY}"
+  request["authorization"] = "Bearer #{ACCESS_TOKEN}"
   response = http.request(request)
   return response.read_body
 end
@@ -67,7 +67,7 @@ def send_post(url, body)
 
   request = Net::HTTP::Post.new(url)
   request["content-type"] = 'application/json'
-  request["authorization"] = "Bearer #{API_KEY}"
+  request["authorization"] = "Bearer #{ACCESS_TOKEN}"
   request.body = body
   response = http.request(request)
   return response.read_body

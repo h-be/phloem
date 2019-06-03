@@ -37,7 +37,7 @@ def get_triage_frames()
   widgets.each do |widget|
     if is_triage_frame(widget)
       subtitle = get_tframe_subtitle(widget)
-      puts CIGREEN + "TRIAGE FRAME FOUND with subtitle" + CEND + "#{subtitle}"
+      puts CIGREEN + "TRIAGE FRAME FOUND with subtitle: " + CEND + "#{subtitle}"
       tframes[subtitle] = widget
     end
   end

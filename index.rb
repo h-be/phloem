@@ -13,26 +13,23 @@ post '/payload/issues' do
   # puts "\e[38;5;196mI got some JSON: \e[0m \n#{push.inspect}\n\n"
   # puts "#{json.inspect}"
 
-  action = push["action"]
-
+  # assign names to relevant data from the JSON payload recieved
+  action = push["action"] # whether the issue was opened, closed, or reopened
+  # the issue section inside the push is where most of the data we want is
   issue = push["issue"]
   title = issue["title"]
   body = issue["body"]
   url = issue["html_url"]
-  number = issue["number"]
-  issueID = issue["id"]
-
+  number = issue["number"] # The number that's seen and reference on GitHub.com
+  issueID = issue["id"] # GitHub unique ID for the issue
   user = push["sender"]["login"]
-
-  # get the repo from JSON so we know which frame to put the node in
+  # get repo from issue JSON so we know which frame to put the new node in
   repo = push["repository"]["name"]
-  # state = issue["state"]
 
   puts CIGREEN + "The action is: " + CEND + action
   puts CIGREEN + "The title is: " + CEND + title
   puts CIGREEN + "The body is: " + CEND + body
   puts CIGREEN + "The url is: " + CEND + url
-
   puts CIGREEN + "The repo is:" + CEND + repo
 
   # Do things based on what the update was
@@ -43,6 +40,7 @@ post '/payload/issues' do
     puts "creating node with the following information: title=#{title},
     body=#{body}, url=#{url}, user=#{user}, number=#{number} issueID=#{issueID}"
     puts "putting this node in the following triage frame: #{repo}"
+
     create_node(title, body, url, user, number, issueID, repo)
 
   when "closed"
@@ -55,10 +53,4 @@ post '/payload/issues' do
     puts "Action was #{action} and the translator doesn't know what to
     do about that"
   end
-end
-
-post '/payload/projects' do
-  json = request.body.read
-  # push = JSON.parse(json)
-  # puts "#{json.inspect}"
 end

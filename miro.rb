@@ -4,14 +4,11 @@ require "openssl"
 require "json"
 require_relative "config.rb"
 
-# Define colors
+# Define soa colors
 UNCERTAIN_RED = "#f24726"
 INCOMPLETE_ORANGE = "#fac710"
 COMPLETE_GREEN = "#8fd14f"
 SMALLBORDER_GREEN = "#0ca789"
-
-# Set up some urls
-oauth_url = URI("https://api.miro.com/v1/oauth-token")
 
 # Test whether a given widget is a triage frame
 # * must start with "TRIAGE"
@@ -31,7 +28,7 @@ end
 # Looks through all widgets and returns the widgets that start with "TRIAGE"
 # Returns a hash. Keys are the subtitles of the triage frames, values are the
 # frame widgets themselves.
-def find_triage_frames()
+def get_triage_frames()
   widgets_url = URI("https://api.miro.com/v1/boards/#{BOARD_ID}/widgets")
   result = send_get(widgets_url)
   widgets_collection = JSON.parse(result)
@@ -40,7 +37,7 @@ def find_triage_frames()
   widgets.each do |widget|
     if is_triage_frame(widget)
       subtitle = get_tframe_subtitle(widget)
-      puts "TRIAGE FRAME FOUND with subtitle #{subtitle}"
+      puts CIGREEN + "TRIAGE FRAME FOUND with subtitle" + CEND + "#{subtitle}"
       tframes[subtitle] = widget
     end
   end
@@ -48,7 +45,7 @@ def find_triage_frames()
 end
 
 # Helper functions for requesting gets and posts
-#   I don't know if these are necessary or if there's a better way to do this
+# I don't know if these are necessary or if there's a better way to do it—Will
 def send_get(url)
   http = Net::HTTP.new(url.host, url.port)
   http.use_ssl = true
@@ -73,6 +70,7 @@ def send_post(url, body)
   return response.read_body
 end
 
+# returns the x,y coordinates of a given widget
 def get_coordinates(widget)
   x = widget["x"]
   y = widget["y"]
@@ -80,28 +78,39 @@ def get_coordinates(widget)
 end
 
 # Creates a node with the given information
-# * title–user: self explanitory
-# * issueID: the unique GitHub issue ID used to track the node
-# * context: the scope that the issue relates to. Decided by SOMETHING from
-#   GitHub information, manifests as the triage location the node is created in
+# * title thru user: self explanitory
+# * issueID: the unique GitHub issue ID whic we can use to track the node
+# * repo: the issue's repo. Decides which frame to create the node in.
 def create_node(title, body, url, user, number, issueID, context)
   widgets_url = URI("https://api.miro.com/v1/boards/#{BOARD_ID}/widgets")
 
   # compute location for card to appear based on context
-  x, y = get_coordinates(find_triage_frames()[context])
+  node_frame = get_triage_frames()[context] # this might take a long time with big boards. Fix?
+  x, y = get_coordinates(node_frame)
 
+  # set up a hash of the information we want in our new node
   data = {
     "type"=>"card",
-    "title"=>"<p>#{title}<br><a href=\"#{url}\">\##{number}</a><br><br>#{body}<br><br>opened by #{user}<br>~~ #{issueID}",
-    # {}"description"=>"test", # causes bug and gets lost on widget type change
+    "title"=>"
+    <p>#{title}
+    <br><a href=\"#{url}\">\##{number}</a>
+    <br>
+    <br>#{body}
+    <br>
+    <br>opened by #{user}
+    <br>~~ #{issueID}
+    </p>",
+    # "description"=>"test", # description data gets lost on widget type change from card to object. Also, setting the description in this way causes a Miro bug(?) where the title isn't shown unless the card is expanded.
     "style"=>{
-      "backgroundColor"=>UNCERTAIN_RED # doesn't actually work how we want it b/c we're creating a card not a shape
+      "backgroundColor"=>UNCERTAIN_RED # doesn't actually work how we want it because we're creating a card not a shape
     },
     "y"=>y,
     "x"=>x,
     "scale"=>1
   }
+  # convert it to JSON
   json = data.to_json
+  # send it to Miro
   result = send_post(widgets_url, json)
   puts result
 end

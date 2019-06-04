@@ -32,7 +32,7 @@ def get_triage_frames()
   widgets_url = URI("https://api.miro.com/v1/boards/#{BOARD_ID}/widgets")
   result = send_get(widgets_url)
   widgets_collection = JSON.parse(result)
-  puts CIGREEN + "WIDGETS COLLECTION: " + CEND + "#{widgets_collection}"
+  # puts CIGREEN + "WIDGETS COLLECTION: " + CEND + "#{result}"
   widgets = widgets_collection["data"]
   tframes = Hash.new
   widgets.each do |widget|
@@ -46,7 +46,7 @@ def get_triage_frames()
 end
 
 # Helper functions for requesting gets and posts
-# I don't know if these are necessary or if there's a better way to do it—Will
+# I don't know if these are necessary or if there's a better way to do it —Will
 def send_get(url)
   http = Net::HTTP.new(url.host, url.port)
   http.use_ssl = true
@@ -132,5 +132,5 @@ def create_node(title, body, url, user, number, issueID, repo)
   json = data.to_json
   # send it to Miro
   result = send_post(widgets_url, json)
-  puts result
+  puts CIGREEN + "CREATED NODE:" + CEND + result
 end

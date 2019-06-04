@@ -37,6 +37,7 @@ translator listens for new issues created in a GitHub repo and creates correspon
       * `CLIENT_SECRET` - Found in "manage apps" settings in Miro
       * `ACCESS_TOKEN` - API access token from Miro
       * `BOARD_ID` - ID of Miro board
+      * `FRAMES` - Defines which repos link to which frames. Each key-value pair consists of a repo name and the Miro Widget ID of the frame that issues from that repo should appear inside. To find the Widget ID of a frame, right-click on it in Miro and select "Copy link". The link will look like `https﻿://miro.com/app/board/i9E_keXrQeL=/?moveToWidget=2238459382770409338`. The number at the end, `2238459382770409338`, is the Widget ID.
 
   [comment]: # (Watch out!, there's a non-breaking zero-width space character in the URL in the last line of the code block above, between the 's' and ':')
 

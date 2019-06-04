@@ -45,6 +45,18 @@ def get_triage_frames()
   return tframes
 end
 
+# Returns widget hash (from JSON).
+def get_widget_by_id(id)
+  if id == nil
+    raise 'Widget ID not found!'
+  end
+  widgets_url = URI("https://api.miro.com/v1/boards/#{BOARD_ID}/widgets/#{id}")
+  result = send_get(widgets_url)
+  widget = JSON.parse(result)
+  puts CIGREEN + "GOT WIDGET: " + CEND + "#{result}"
+  return widget
+end
+
 # Helper functions for requesting gets and posts
 # I don't know if these are necessary or if there's a better way to do it —Will
 def send_get(url)
@@ -95,10 +107,14 @@ def create_node(title, body, url, user, number, issueID, repo)
   widgets_url = URI("https://api.miro.com/v1/boards/#{BOARD_ID}/widgets")
 
   # compute location for card to appear based on repo
-  node_frame = get_triage_frames()[repo] # this might take a long time with big boards. Fix?
-  x, y = get_coordinates(node_frame)
+  # destination_frame = get_triage_frames()[repo]
+  # look up location for card to appear based on repo
+  destination_frame_id = FRAMES[repo]
+  destination_frame = get_widget_by_id(destination_frame_id)
+
+  x, y = get_coordinates(destination_frame)
   # compute scale for new node based on width of frame
-  frame_width = node_frame["width"]
+  frame_width = destination_frame["width"]
   node_scale = frame_width/1000
 
   # add a little random nudge to the coordinates so nodes stack up visibly

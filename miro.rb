@@ -55,6 +55,15 @@ def send_get(url)
   request = Net::HTTP::Get.new(url)
   request["authorization"] = "Bearer #{ACCESS_TOKEN}"
   response = http.request(request)
+
+  data = JSON.parse(response.read_body)
+  if data["type"] == "error"
+    status = data["status"]
+    code = data["code"]
+    message = data["message"]
+    raise "Error #{status} #{code}: #{message}"
+  end
+
   return response.read_body
 end
 

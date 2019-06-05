@@ -114,8 +114,8 @@ def create_node(title, body, url, user, number, issueID, repo)
 
   x, y = get_coordinates(destination_frame)
   # compute scale for new node based on width of frame
-  frame_width = destination_frame["width"]
-  node_scale = frame_width/1000
+  node_width = destination_frame["width"]*0.3
+  node_height = node_width*0.7
 
   # add a little random nudge to the coordinates so nodes stack up visibly
   nudge_distance = 13.0
@@ -126,8 +126,8 @@ def create_node(title, body, url, user, number, issueID, repo)
 
   # set up a hash of the information we want in our new node
   data = {
-    "type"=>"card",
-    "title"=>"
+    "type"=>"shape",
+    "text"=>"
     <p>#{title}
     <br><a href=\"#{url}\">\##{number}</a>
     <br>
@@ -136,13 +136,17 @@ def create_node(title, body, url, user, number, issueID, repo)
     <br>opened by #{user}
     <br>~~ #{issueID}
     </p>",
-    # "description"=>"test", # description data gets lost on widget type change from card to object. Also, setting the description in this way causes a Miro bug(?) where the title isn't shown unless the card is expanded.
     "style"=>{
-      "backgroundColor"=>UNCERTAIN_RED # doesn't actually work how we want it because we're creating a card not a shape
+      "backgroundColor"=>"UNCERTAIN_RED",
+      "backgroundColor"=>"#f24726",
+      "backgroundOpacity"=>1,
+      "borderColor"=>"#f24726",
+      "borderOpacity"=>1
     },
     "y"=>node_y,
     "x"=>node_x,
-    "scale"=>node_scale
+    "width"=>node_width,
+    "height"=>node_height
   }
   # convert it to JSON
   json = data.to_json

@@ -19,7 +19,7 @@ translator listens for new issues created in a GitHub repo and creates correspon
    1. [Create a webhook](https://developer.github.com/webhooks/creating/) in the GitHub repo.
    2. Enter your ngrok url `payload/issues` appended as the Payload URL: `http://********.ngrok.io/payload/issues`
    3. Set the content type to "application/json"
-   4. During setup, under "Which events would you like to trigger this webhook?", select "Issues".
+   4. During setup, under "Which events would you like to trigger this webhook?", select "Issues". Make sure to deselect "Pushes".
    5. Save the webhook
    6. *Create a webhook with these settings in each repo you want to link to the Miro board.*
 3. #### **Connect to Miro**

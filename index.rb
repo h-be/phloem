@@ -9,22 +9,28 @@ set :port, 8089
 # React to an incoming webhook payload
 post '/payload/issues' do
   json = request.body.read
-  push = JSON.parse(json)
-  # puts "\e[38;5;196mI got some JSON: \e[0m \n#{push.inspect}\n\n"
+  payload = JSON.parse(json)
+  # puts "\e[38;5;196mI got some JSON: \e[0m \n#{payload.inspect}\n\n"
   # puts "#{json.inspect}"
 
+  # the issue section inside the payload is where most of the data we want is
+  issue = payload["issue"]
+
+  if issue == nil
+    puts CIGREEN + "This payload isn't an issue; this shouldn't have happened. You probably have an additional event selected by accident" + CEND
+    return
+  end
+
   # assign names to relevant data from the JSON payload recieved
-  action = push["action"] # whether the issue was opened, closed, or reopened
-  # the issue section inside the push is where most of the data we want is
-  issue = push["issue"]
+  action = payload["action"] # whether the issue was opened, closed, or reopened
   title = issue["title"]
   body = issue["body"]
   url = issue["html_url"]
   number = issue["number"] # The number that's seen and reference on GitHub.com
   issueID = issue["id"] # GitHub unique ID for the issue
-  user = push["sender"]["login"]
+  user = payload["sender"]["login"]
   # get repo from issue JSON so we know which frame to put the new node in
-  repo = push["repository"]["name"]
+  repo = payload["repository"]["name"]
 
   puts CIGREEN + "The action is: " + CEND + action
   puts CIGREEN + "The title is: " + CEND + title
@@ -36,10 +42,6 @@ post '/payload/issues' do
   case action
   when "opened"
     puts CGREEN + "OPENED!" + CEND
-
-    puts "creating node with the following information: title=#{title},
-    body=#{body}, url=#{url}, user=#{user}, number=#{number} issueID=#{issueID}"
-    puts "putting this node in the following triage frame: #{repo}"
 
     create_node(title, body, url, user, number, issueID, repo)
 

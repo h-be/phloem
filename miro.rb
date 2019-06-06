@@ -74,6 +74,7 @@ def send_get(url)
     code = data["code"]
     message = data["message"]
     raise "Error #{status} #{code}: #{message}"
+    return
   end
 
   return response.read_body

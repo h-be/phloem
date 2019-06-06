@@ -28,8 +28,8 @@ end
 # Looks through all widgets and returns the widgets that start with "TRIAGE"
 # Returns a hash. Keys are the subtitles of the triage frames, values are the
 # frame widgets themselves.
-def get_triage_frames()
-  widgets_url = URI("https://api.miro.com/v1/boards/#{BOARD_ID}/widgets")
+def get_triage_frames(board_id)
+  widgets_url = URI("https://api.miro.com/v1/boards/#{board_id}/widgets")
   result = send_get(widgets_url)
   widgets_collection = JSON.parse(result)
   # puts CIGREEN + "WIDGETS COLLECTION: " + CEND + "#{result}"
@@ -45,12 +45,12 @@ def get_triage_frames()
   return tframes
 end
 
-# Returns widget hash (from JSON).
-def get_widget_by_id(id)
+# Returns widget hash (from JSON). Needs widget ID and which board to look in
+def get_widget_by_id(id, board_id)
   if id == nil
     raise 'Widget ID not found!'
   end
-  widgets_url = URI("https://api.miro.com/v1/boards/#{BOARD_ID}/widgets/#{id}")
+  widgets_url = URI("https://api.miro.com/v1/boards/#{board_id}/widgets/#{id}")
   result = send_get(widgets_url)
   widget = JSON.parse(result)
   puts CIGREEN + "GOT WIDGET: " + CEND + "#{result}"
@@ -105,13 +105,12 @@ end
 # * issueID: the unique GitHub issue ID whic we can use to track the node
 # * repo: the issue's repo. Decides which frame to create the node in.
 def create_node(title, body, url, user, number, issueID, repo)
-  widgets_url = URI("https://api.miro.com/v1/boards/#{BOARD_ID}/widgets")
+  board_id = REPOS[repo]["board"]
+  widgets_url = URI("https://api.miro.com/v1/boards/#{board_id}/widgets")
 
-  # compute location for card to appear based on repo
-  # destination_frame = get_triage_frames()[repo]
   # look up location for card to appear based on repo
-  destination_frame_id = FRAMES[repo]
-  destination_frame = get_widget_by_id(destination_frame_id)
+  destination_frame_id = REPOS[repo]["frame"]
+  destination_frame = get_widget_by_id(destination_frame_id, board_id)
 
   x, y = get_coordinates(destination_frame)
   # compute scale for new node based on width of frame

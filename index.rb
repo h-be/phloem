@@ -17,7 +17,7 @@ post '/payload/issues' do
   issue = payload["issue"]
 
   if issue == nil
-    puts CIGREEN + "This payload isn't an issue; this shouldn't have happened. You probably have an additional event selected by accident" + CEND
+    puts CIGREEN + "This payload isn't an issue! You probably have an additional event selected by accident in your GitHub webhook settings. Or maybe you just added a new webhook." + CEND
     return
   end
 

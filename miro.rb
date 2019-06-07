@@ -127,15 +127,8 @@ def create_node(title, body, url, user, number, issueID, repo)
   # set up a hash of the information we want in our new node
   data = {
     "type"=>"shape",
-    "text"=>"
-    <p>#{title}
-    <br><a href=\"#{url}\">\##{number}</a>
-    <br>
-    <br>#{body}
-    <br>
-    <br>opened by #{user}
-    <br>~~ #{issueID}
-    </p>",
+    # this is one line and hard to read, but it has to be that way because of a Miro text interpretation bug
+    "text"=>"<p>#{title}⋅<br><a href=\"#{url}\">\##{number}</a>⋅<br>⋅<br>#{body}⋅<br>⋅<br>opened by #{user}⋅<br>~~ #{issueID}⋅</p>",
     "style"=>{
       "backgroundColor"=>"UNCERTAIN_RED",
       "backgroundColor"=>"#f24726",

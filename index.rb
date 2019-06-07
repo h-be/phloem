@@ -52,7 +52,7 @@ post '/payload/issues' do
     puts CGREEN + "REOPENED!" + CEND
     # turn color back to something
   else
-    puts "Action was #{action} and the translator doesn't know what to
+    puts "Action was #{action} and the phloem doesn't know what to
     do about that"
   end
 end

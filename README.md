@@ -1,8 +1,8 @@
-# translator
-> Translates between git issues and SoA nodes
+# phloem
+> Translates between GitHub issues and SoA nodes
 
 # Background
-translator listens for new issues created in a GitHub repo and creates corresponding leaf nodes in a triage area (frame?).
+The phloem is the part of a tree that transports nutrients created by photosynthesis to other parts of the tree that need them. This code listens for new issues created in any number of GitHub repos and creates leaf nodes inside corresponding frames in the State of Affairs tree boards of a Miro organization.
 
 # Install
 
@@ -32,20 +32,22 @@ translator listens for new issues created in a GitHub repo and creates correspon
        * `boards_content:write`
    4. Click "Install app and get OAuth Token" and follow the instructions.
    5. Note the [access token](https://developers.miro.com/reference#authorization-and-authentication) Miro gives you.
-   6. Make a config file called `config.rb` with the following consts defined. A sample config file ([sample_config.rb](/sample_config.rb)) is provided to copy and edit.
+4. #### **Set up Miro board**
+   1. For each connected GitHub repo, create a frame in any Miro board in the organization.
+5. #### **Create config file**
+   1. Make a config file called `config.rb` with the following consts defined. A sample config file ([sample_config.rb](/sample_config.rb)) is provided to copy and edit.
       * `CLIENT_ID` -  Found in "manage apps" settings in Miro
       * `CLIENT_SECRET` - Found in "manage apps" settings in Miro
       * `ACCESS_TOKEN` - API access token from Miro
       * `BOARD_ID` - ID of Miro board, found in the board's URL: https﻿://miro.com/app/board/[board id]/
-      * `REPOS` - Defines which repo links to which frame on which board. Each entry consists of a repo name which corresponds two pieces of data: a board ID and a Miro Widget ID. Together, these define the frame in which new nodes will be created when an issue is opened. The board ID of a board is in its URL. In this URL `https﻿://miro.com/app/board/i9E_keXrQeL=/` the board id is `i9E_keXrQeL=`. To find the Widget ID of a frame, right-click on it in Miro and select "Copy link". The link will look like `https﻿://miro.com/app/board/i9E_keXrQeL=/?moveToWidget=2238459382770409338`. The number at the end, `2238459382770409338`, is the Widget ID.
-
+      * `REPOS` - Defines which repo links to which frame on which board. Each entry consists of a repo name which corresponds two pieces of data that define the frame in which new nodes will be created when an issue is opened:
+         * *Board ID*: The board ID of a board is in its URL. In this URL `https﻿://miro.com/app/board/i9E_keXrQeL=/` the board id is `i9E_keXrQeL=`.
+         * *Widget ID*: The ID of a frame. Right-click on the frame in Miro and select "Copy link". The link will look like `https﻿://miro.com/app/board/i9E_keXrQeL=/?moveToWidget=2238459382770409338`. The number at the end, `2238459382770409338`, is the Widget ID.
   [comment]: # (Watch out! There are non-breaking zero-width space characters in the URLs in the line above, between the 's' and ':')
 
-4. #### **Set up Miro board**
-   1. For each connected GitHub repo, create a frame and title it `TRIAGE` followed by the name of the repo. For example, the triage frame for this repo would be titled: `TRIAGE translator`.
-   2. *Done! New issues should now appear in the triage frame corresponding to their repo! You can move the frames anywhere on the board.*
+*Done! New issues should now appear in the triage frame corresponding to their repo! You can move the frames anywhere on the board.*
 
 # Usage
-Run the server with `ruby index.rb`. When an issue is created you should see output.
+Run the server with `ruby index.rb`. When an issue is created you should see debugging output.
 
 For development, stop and restart the Sinatra server when you make changes. Make sure to stop the server once you're done or it'll keep running "headless."

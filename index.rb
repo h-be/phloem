@@ -3,8 +3,10 @@ require 'json'
 require_relative 'miro.rb'
 require_relative 'colors.rb'
 
-# Set custom port
-set :port, 8089
+# Set bind address (network interface)
+set :bind, defined?(PHLOEM_BIND) ? PHLOEM_BIND : 'localhost' 
+# Set port
+set :port, defined?(PHLOEM_PORT) ? PHLOEM_PORT : 8089 
 
 # React to an incoming webhook payload
 post '/payload/issues' do

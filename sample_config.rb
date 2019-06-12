@@ -1,3 +1,5 @@
+PHLOEM_BIND = 'localhost'                    # Should be localhost in dev, might be 0.0.0.0 in live/standalone
+PHLOEM_PORT = 8089                    # Must be available
 CLIENT_ID = '3647883846667980995'      # Must be replaced from "manage apps" settings in Miro
 CLIENT_SECRET = 'EDQnTsuCBivNEgrCOaDJ' # Must be replaced from "manage apps" settings in Miro
 ACCESS_TOKEN = "723a9bc4-c729-620b-4f8d-d38fdc68a993" # From Miro

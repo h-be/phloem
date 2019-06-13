@@ -130,10 +130,10 @@ def create_node(title, body, url, user, number, issueID, repo)
     # this is one line and hard to read, but it has to be that way because of a Miro text interpretation bug
     "text"=>"<p>#{title}⋅<br><a href=\"#{url}\">\##{number}</a>⋅<br>⋅<br>#{body}⋅<br>⋅<br>opened by #{user}⋅<br>~~ #{issueID}⋅</p>",
     "style"=>{
-      "backgroundColor"=>"UNCERTAIN_RED",
-      "backgroundColor"=>"#f24726",
+      "backgroundColor"=>UNCERTAIN_RED,
       "backgroundOpacity"=>1,
-      "borderColor"=>"#f24726",
+      "borderColor"=>"#000000",
+      "borderWidth"=>2,
       "borderOpacity"=>1
     },
     "y"=>node_y,

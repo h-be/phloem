@@ -100,6 +100,11 @@ def get_coordinates(widget)
   return x, y
 end
 
+# return higher of n and minimum
+def max(n, min)
+  return n > min ? n : min
+end
+
 # Creates a node with the given information
 # * title thru user: self explanitory
 # * issueID: the unique GitHub issue ID whic we can use to track the node
@@ -113,9 +118,13 @@ def create_node(title, body, url, user, number, issueID, repo)
   destination_frame = get_widget_by_id(destination_frame_id, board_id)
 
   x, y = get_coordinates(destination_frame)
+
   # compute scale for new node based on width of frame
-  node_width = destination_frame["width"]*0.3
-  node_height = node_width*0.7
+  node_width = max(destination_frame["width"]*0.3, 32)
+  node_height = max(node_width*0.7, 36)
+
+  # compute font size based on node with
+  font_size = max(Integer(node_width*0.06), 10)
 
   # add a little random nudge to the coordinates so nodes stack up visibly
   nudge_distance = 13.0
@@ -134,7 +143,8 @@ def create_node(title, body, url, user, number, issueID, repo)
       "backgroundOpacity"=>1,
       "borderColor"=>"#000000",
       "borderWidth"=>2,
-      "borderOpacity"=>1
+      "borderOpacity"=>1,
+      "fontSize"=>font_size
     },
     "y"=>node_y,
     "x"=>node_x,

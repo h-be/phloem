@@ -45,7 +45,13 @@ post '/payload/issues' do
   when "opened"
     puts CGREEN + "OPENED!" + CEND
 
-    create_node(title, body, url, user, number, issueID, repo)
+    # only create the node if the issue wasn't created by automatically
+    if body.include? '>See card in SoA Tree</a>'
+      puts CIGREEN + "AUTO-CREATED ISSUE, NOT CREATING NODE" + CEND
+      return
+    else
+      create_node(title, body, url, user, number, issueID, repo)
+    end
 
   when "closed"
     puts CGREEN + "CLOSED!" + CEND

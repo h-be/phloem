@@ -1,12 +1,12 @@
 # phloem
 > Translates between GitHub issues and SoA nodes
 
-# Background
+## Background
 The phloem is the part of a tree that transports nutrients created by photosynthesis to other parts of the tree that need them. This code listens for new issues created in any number of GitHub repos and creates leaf nodes inside corresponding frames in the State of Affairs tree boards of a Miro organization.
 
-# Install
+## Install
 
-## Dependencies
+### Dependencies
 
 * ruby
 * [Sinatra](http://sinatrarb.com/)
@@ -47,7 +47,7 @@ The phloem is the part of a tree that transports nutrients created by photosynth
 
 *Done! New issues should now appear in the triage frame corresponding to their repo! You can move the frames anywhere on the board.*
 
-# Usage
+## Usage
 Run the server with `ruby index.rb`. When an issue is created you should see debugging output.
 
 For development, stop and restart the Sinatra server when you make changes. Make sure to stop the server once you're done or it'll keep running "headless."

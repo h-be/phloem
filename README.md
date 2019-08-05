@@ -43,7 +43,8 @@ The phloem is the part of a tree that transports nutrients created by photosynth
       * `REPOS` - Defines which repo links to which frame on which board. Each entry consists of a repo name which corresponds two pieces of data that define the frame in which new nodes will be created when an issue is opened:
          * *Board ID*: The board ID of a board is in its URL. In this URL `https﻿://miro.com/app/board/i9E_keXrQeL=/` the board id is `i9E_keXrQeL=`.
          * *Widget ID*: The ID of a frame. Right-click on the frame in Miro and select "Copy link". The link will look like `https﻿://miro.com/app/board/i9E_keXrQeL=/?moveToWidget=2238459382770409338`. The number at the end, `2238459382770409338`, is the Widget ID.
-  [comment]: # (Watch out! There are non-breaking zero-width space characters in the URLs in the line above, between the 's' and ':')
+         
+ [comment]: # (Watch out! There are non-breaking zero-width space characters in the URLs in the line above, between the 's' and ':')
 
 *Done! New issues should now appear in the triage frame corresponding to their repo! You can move the frames anywhere on the board.*
 

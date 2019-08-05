@@ -17,7 +17,7 @@ The phloem is the part of a tree that transports nutrients created by photosynth
     1. Start ngrok on port 8089: `ngrok http 8089` or `./ngrok http 8089`
 2. #### **Connect to GitHub**
    1. [Create a webhook](https://developer.github.com/webhooks/creating/) in the GitHub repo.
-   2. Enter your ngrok url `payload/issues` appended as the Payload URL: `http://********.ngrok.io/payload/issues`
+   2. Enter your ngrok url with `payload/issues` appended as the Payload URL: `http://********.ngrok.io/payload/issues`
    3. Set the content type to "application/json"
    4. During setup, under "Which events would you like to trigger this webhook?", select "Issues". Make sure to deselect "Pushes".
    5. Save the webhook
